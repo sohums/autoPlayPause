@@ -5,7 +5,7 @@ from collections import deque
 from pynput.mouse import Button, Controller
 from time import sleep
 
-cascPath = 'haarcascade_frontalface_default.xml'
+cascPath = 'haarcascade_eye.xml'
 faceCascade = cv2.CascadeClassifier(cascPath)
 log.basicConfig(filename='webcam.log',level=log.INFO)
 
