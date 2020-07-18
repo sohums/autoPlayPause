@@ -6,7 +6,7 @@ from pynput.mouse import Button, Controller
 from time import sleep
 
 cascPath = 'haarcascade_eye.xml'
-faceCascade = cv2.CascadeClassifier(cascPath)
+eyeCascade = cv2.CascadeClassifier(cascPath)
 log.basicConfig(filename='webcam.log',level=log.INFO)
 
 vid_cap = cv2.VideoCapture(0)
@@ -16,7 +16,7 @@ buffer = deque(maxlen=buff_len)
 for i in range(buff_len):
     buffer.append(1)
 
-face_in_front = True
+eye_in_front = True
 mouse = Controller()
 
 def rescale_frame(frame, percent=75):
@@ -36,15 +36,15 @@ while True:
 
     gray = cv2.cvtColor(rescaled_frame, cv2.COLOR_BGR2GRAY)
 
-    faces = faceCascade.detectMultiScale(
+    eye = eyeCascade.detectMultiScale(
         gray,
         scaleFactor=1.1,
         minNeighbors=5,
         minSize=(30, 30)
     )
 
-    # Draw a rectangle around the faces
-    for (x, y, w, h) in faces:
+    # Draw a rectangle around the eye
+    for (x, y, w, h) in eye:
         cv2.rectangle(rescaled_frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Display the resulting frame
@@ -54,18 +54,18 @@ while True:
         break
 
     # Roughly 360 pings/minute (6 pings/second)
-    buffer.append(len(faces))
-    prev_fif = face_in_front
-    face_in_front = sum([num > 0 for num in buffer]) > buff_len // 2
+    buffer.append(len(eye))
+    prev_fif = eye_in_front
+    eye_in_front = sum([num > 0 for num in buffer]) > buff_len // 2
 
-    if prev_fif != face_in_front:
+    if prev_fif != eye_in_front:
         log.info('State change detected')
         mouse.position = (725, 375)
 
         mouse.press(Button.left)
         mouse.release(Button.left)
 
-    log.info('{} : {}'.format(str(buffer), str(face_in_front)))
+    log.info('{} : {}'.format(str(buffer), str(eye_in_front)))
 
 # When everything is done, release the capture
 vid_cap.release()
