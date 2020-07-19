@@ -45,7 +45,7 @@ while True:
 
     # Draw a rectangle around the eye
     for (x, y, w, h) in eye:
-        cv2.rectangle(rescaled_frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        cv2.rectangle(rescaled_frame, (x, y), (x+w, y+h), (0, 255, 0), 1)
 
     # Display the resulting frame
     cv2.imshow('Video', rescaled_frame)
@@ -59,7 +59,7 @@ while True:
     eye_in_front = sum([num > 0 for num in buffer]) > buff_len // 2
 
     if prev_fif != eye_in_front:
-        log.info('State change detected')
+        log.info('STATE CHANGE!')
         mouse.position = (725, 375)
 
         mouse.press(Button.left)
