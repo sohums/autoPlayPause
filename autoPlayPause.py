@@ -2,7 +2,7 @@ import cv2
 import sys
 import logging as log
 from collections import deque
-from pynput.mouse import Button, Controller
+import pyautogui
 from time import sleep
 
 cascPath = 'haarcascade_eye.xml'
@@ -17,7 +17,6 @@ for i in range(buff_len):
     buffer.append(1)
 
 eye_in_front = True
-mouse = Controller()
 
 def rescale_frame(frame, percent=75):
     width = int(frame.shape[1] * percent/ 100)
@@ -60,10 +59,7 @@ while True:
 
     if prev_fif != eye_in_front:
         log.info('STATE CHANGE!')
-        mouse.position = (725, 375)
-
-        mouse.press(Button.left)
-        mouse.release(Button.left)
+        pyautogui.press('space')
 
     log.info('{} : {}'.format(str(buffer), str(eye_in_front)))
 
