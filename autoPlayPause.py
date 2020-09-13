@@ -45,7 +45,7 @@ while True:
 
     # Draw a rectangle around the eye
     for (x, y, w, h) in eye:
-        cv2.rectangle(rescaled_frame, (x, y), (x+w, y+h), (0, 255, 0), 1)
+        cv2.rectangle(rescaled_frame, (x, y), (x+w, y+h), (0, 255, 0), 3)
 
     # Display the resulting frame
     cv2.imshow('Video', rescaled_frame)
